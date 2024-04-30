@@ -5,11 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Chess_UI"
         mc:Ignorable="d"
-        Title="Great Chess" Height="625" Width="600" Icon="/Assets/icon.ico">
-    <Window.Background>
-        <ImageBrush ImageSource="/Assets/board.png" Stretch="Uniform"/>
-    </Window.Background>
-    <Grid>
-        
-    </Grid>
+        Title="Great Chess" SizeToContent="Height" Width="600"
+        Icon="/Assets/icon.ico"
+        WindowStartupLocation="CenterScreen" Background="#101010">
+    <Viewbox>
+        <Grid x:Name="BoardGrid" Height="600" Width="600">
+            <Grid.Background>
+            <ImageBrush ImageSource="/Assets/board.png" Stretch="Uniform"/>
+        </Grid.Background>
+            <UniformGrid x:Name="PieceGrid" Rows="8" Columns="8" RenderOptions.BitmapScalingMode="HighQuality">
+                
+            </UniformGrid>
+        </Grid>
+    </Viewbox>
+    
 </Window>
