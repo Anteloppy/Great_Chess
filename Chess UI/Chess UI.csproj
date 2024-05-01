@@ -63,6 +63,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ChessCursor.cs" />
     <Compile Include="Images.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -119,11 +120,13 @@
     <Resource Include="Assets\board.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\hand.cur" />
-    <Resource Include="Assets\mouse.cur" />
+    <Resource Include="Assets\icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\icon.ico" />
+    <Resource Include="Assets\red_cursor.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\black_cursor.cur" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
