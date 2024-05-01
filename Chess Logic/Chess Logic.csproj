@@ -45,6 +45,7 @@
     <Compile Include="Direction.cs" />
     <Compile Include="EndReason.cs" />
     <Compile Include="GameState.cs" />
+    <Compile Include="Moves\Castle.cs" />
     <Compile Include="Moves\Move.cs" />
     <Compile Include="Moves\NormalMove.cs" />
     <Compile Include="Moves\PawnPromotion.cs" />
