@@ -62,7 +62,7 @@ namespace Chess_Logic
                 Position twoMovesPos = oneMovePos + forward;
 
                 if (!HasMoved && CanMoveTo(twoMovesPos, board))
-                    yield return new NormalMove(from, twoMovesPos);
+                    yield return new DoublePawn(from, twoMovesPos);
             }
         }
 
@@ -72,7 +72,9 @@ namespace Chess_Logic
             {
                 Position to = from + forward + dir;
 
-                if (CanMoveTo(to, board))
+                if (to == board.GetPawnSkipPosition(Color.Opponent()))
+                    yield return new EnPassant(from, to);
+                else if (CanMoveTo(to, board))
                 {
                     if (to.Row == 0 || to.Row == 7)
                         foreach (Move promMove in PromotionMoves(from, to))
