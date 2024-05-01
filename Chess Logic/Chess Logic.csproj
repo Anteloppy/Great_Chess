@@ -47,6 +47,7 @@
     <Compile Include="GameState.cs" />
     <Compile Include="Moves\Move.cs" />
     <Compile Include="Moves\NormalMove.cs" />
+    <Compile Include="Moves\PawnPromotion.cs" />
     <Compile Include="MoveType.cs" />
     <Compile Include="Pieces\Bishop.cs" />
     <Compile Include="Pieces\King.cs" />
