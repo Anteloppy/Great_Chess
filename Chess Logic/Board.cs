@@ -164,8 +164,9 @@ namespace Chess_Logic
             if (counting.Red(PieceType.Bishop) != 1 || counting.Black(PieceType.Bishop) != 1)
                 return false;
 
-            Position rBishopPos = FindPiece(Player.Red, PieceType.Bishop);
-            Position bBishopPos = FindPiece(Player.Black, PieceType.Bishop);
+            Board board = new Board();
+            Position rBishopPos = board.FindPiece(Player.Red, PieceType.Bishop);
+            Position bBishopPos = board.FindPiece(Player.Black, PieceType.Bishop);
 
             return rBishopPos.SquareColor() == bBishopPos.SquareColor();
         }
@@ -229,12 +230,14 @@ namespace Chess_Logic
             if (skipPos == null)
                 return false;
 
-            Position[] pawnPositions = player switch
+            Position[] pawnPositions;
+
+            switch (player)
             {
-                Player.Red => new Position[] { skipPos + Direction.SouthEast, skipPos + Direction.SouthWest },
-                Player.Black => new Position[] { skipPos + Direction.SouthEast, skipPos + Direction.SouthWest },
-                _ => Array.Empty<Position>()
-            };
+                case Player.Red: pawnPositions = new Position[] { skipPos + Direction.SouthEast, skipPos + Direction.SouthWest }; break;
+                case Player.Black: pawnPositions = new Position[] { skipPos + Direction.NorthEast, skipPos + Direction.NorthWest }; break;
+                default: pawnPositions = Array.Empty<Position>(); break;
+            }
 
             return HasPawnInPosition(player, pawnPositions, skipPos);
         }
