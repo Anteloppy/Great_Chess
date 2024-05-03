@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -172,6 +173,70 @@ namespace Chess_Logic
         private Position FindPiece(Player color, PieceType type)
         {
             return PiecePositionsFor(color).First(pos => this[pos].Type == type);
+        }
+
+        private bool IsUnmovedKingAndRook(Position kingPos, Position rookPos)
+        {
+            if (IsEmpty(kingPos) || IsEmpty(rookPos))
+                return false;
+
+            Piece king = this[kingPos];
+            Piece rook = this[rookPos];
+
+            return king.Type == PieceType.King && rook.Type == PieceType.Rook && !king.HasMoved && !rook.HasMoved;
+        }
+
+        public bool CastleRightKS(Player player)
+        {
+            switch (player)
+            {
+                case Player.Red: return IsUnmovedKingAndRook(new Position(7, 4), new Position(7, 7));
+                case Player.Black: return IsUnmovedKingAndRook(new Position(0, 4), new Position(0, 7));
+                default: return false;
+            }
+        }
+
+        public bool CastleRightQS(Player player)
+        {
+            switch (player)
+            {
+                case Player.Red: return IsUnmovedKingAndRook(new Position(7, 4), new Position(7, 0));
+                case Player.Black: return IsUnmovedKingAndRook(new Position(0, 4), new Position(0, 0));
+                default: return false;
+            }
+        }
+
+        private bool HasPawnInPosition(Player player, Position[] pawnPositions, Position skipPos)
+        {
+            foreach (Position pos in pawnPositions.Where(IsInside))
+            {
+                Piece piece = this[pos];
+                if (piece == null || piece.Color != player || piece.Type != PieceType.Pawn)
+                    continue;
+
+                EnPassant move = new EnPassant(pos, skipPos);
+                if (move.IsLegal(this))
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool CanCaptureEnPassant(Player player)
+        {
+            Position skipPos = GetPawnSkipPosition(player.Opponent());
+
+            if (skipPos == null)
+                return false;
+
+            Position[] pawnPositions = player switch
+            {
+                Player.Red => new Position[] { skipPos + Direction.SouthEast, skipPos + Direction.SouthWest },
+                Player.Black => new Position[] { skipPos + Direction.SouthEast, skipPos + Direction.SouthWest },
+                _ => Array.Empty<Position>()
+            };
+
+            return HasPawnInPosition(player, pawnPositions, skipPos);
         }
     }
 }
