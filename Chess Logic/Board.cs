@@ -119,5 +119,59 @@ namespace Chess_Logic
 
             return copy;
         }
+
+        public Counting CountPieces()
+        {
+            Counting counting = new Counting();
+
+            foreach (Position pos in PiecePositions())
+            {
+                Piece piece = this[pos];
+                counting.Increment(piece.Color, piece.Type);
+            }
+
+            return counting;
+        }
+
+        public bool InsufficientMaterial()
+        {
+            Counting counting = CountPieces();
+
+            return IsKingVSKing(counting) || IsKingKnightVSKing(counting) || IsKingBishopVSKing(counting) || IsKingBishopVSKingBishop(counting);
+        }
+
+        private static bool IsKingVSKing(Counting counting)
+        {
+            return counting.TotalCount == 2;
+        }
+
+        private static bool IsKingBishopVSKing(Counting counting)
+        {
+            return counting.TotalCount == 3 && (counting.Red(PieceType.Bishop) == 1 || counting.Black(PieceType.Bishop) == 1);
+        }
+
+        private static bool IsKingKnightVSKing(Counting counting)
+        {
+            return counting.TotalCount == 3 && (counting.Red(PieceType.Knight) == 1 || counting.Black(PieceType.Knight) == 1);
+        }
+
+        private static bool IsKingBishopVSKingBishop(Counting counting)
+        {
+            if (counting.TotalCount != 4)
+                return false;
+
+            if (counting.Red(PieceType.Bishop) != 1 || counting.Black(PieceType.Bishop) != 1)
+                return false;
+
+            Position rBishopPos = FindPiece(Player.Red, PieceType.Bishop);
+            Position bBishopPos = FindPiece(Player.Black, PieceType.Bishop);
+
+            return rBishopPos.SquareColor() == bBishopPos.SquareColor();
+        }
+
+        private Position FindPiece(Player color, PieceType type)
+        {
+            return PiecePositionsFor(color).First(pos => this[pos].Type == type);
+        }
     }
 }

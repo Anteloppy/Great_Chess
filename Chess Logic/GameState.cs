@@ -56,6 +56,8 @@ namespace Chess_Logic
                 else
                     Result = Result.Draw(EndReason.Stallemate);
             }
+            else if (!Board.InsufficientMaterial())
+                Result = Result.Draw(EndReason.InsufficientMaterial);
         }
 
         public bool IsGameOver()
