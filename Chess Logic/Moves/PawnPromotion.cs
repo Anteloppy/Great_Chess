@@ -32,7 +32,7 @@ namespace Chess_Logic
             }
         }
 
-        public override void Execute(Board board)
+        public override bool Execute(Board board)
         {
             Piece pawn = board[FromPos];
             board[FromPos] = null;
@@ -40,6 +40,8 @@ namespace Chess_Logic
             Piece promotionPiec = CreatePromotionPiece(pawn.Color);
             promotionPiec.HasMoved = true;
             board[ToPos] = promotionPiec;
+
+            return true;
         }
     }
 }
